@@ -4,7 +4,6 @@ import ChatSidebar from '@/components/ChatSidebar';
 import PDFViewer from '@/components/PDFViewer';
 import { db } from '@/db';
 import { chats } from '@/db/schema';
-import { checkSubscription } from '@/lib/subscription';
 import { desc, eq } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
 
@@ -14,7 +13,6 @@ type Props = {
 
 const ChatPage = async ({ params: { chatId } }: Props) => {
   const session = await auth();
-  const isPro = await checkSubscription();
   if (!session || !session.user || !session.user.id) {
     return redirect('/');
   }
@@ -38,7 +36,7 @@ const ChatPage = async ({ params: { chatId } }: Props) => {
     <div className='max-h-[calc(100vh-3.5rem-1px)] min-h-[calc(100vh-3.5rem-1px)] mx-auto max-w-screen-2xl  flex w-full rounded-lg shadow-lg pt-4 '>
       {/* chat sidebar */}
       <div className=' flex-[1] max-w-xs '>
-        <ChatSidebar chatId={parseInt(chatId)} chats={_chats} isPro={isPro} />
+        <ChatSidebar chatId={parseInt(chatId)} chats={_chats} />
       </div>
       {/* pdf viewer */}
       <div className='overflow-auto flex-[5] '>
