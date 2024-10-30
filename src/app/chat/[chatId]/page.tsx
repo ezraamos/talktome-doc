@@ -4,7 +4,8 @@ import ChatSidebar from '@/components/ChatSidebar';
 import PDFViewer from '@/components/PDFViewer';
 import { db } from '@/db';
 import { chats } from '@/db/schema';
-import { eq } from 'drizzle-orm';
+import { checkSubscription } from '@/lib/subscription';
+import { desc, eq } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
 
 type Props = {
@@ -13,11 +14,16 @@ type Props = {
 
 const ChatPage = async ({ params: { chatId } }: Props) => {
   const session = await auth();
+  const isPro = await checkSubscription();
   if (!session || !session.user || !session.user.id) {
     return redirect('/');
   }
   const userId = session.user.id;
-  const _chats = await db.select().from(chats).where(eq(chats.userId, userId));
+  const _chats = await db
+    .select()
+    .from(chats)
+    .where(eq(chats.userId, userId))
+    .orderBy(desc(chats.createdAt));
 
   if (!_chats) {
     return redirect('/');
@@ -31,15 +37,15 @@ const ChatPage = async ({ params: { chatId } }: Props) => {
   return (
     <div className='max-h-[calc(100vh-3.5rem-1px)] min-h-[calc(100vh-3.5rem-1px)] mx-auto max-w-screen-2xl  flex w-full rounded-lg shadow-lg pt-4 '>
       {/* chat sidebar */}
-      <div className=' flex-[1] max-w-xs bg-white'>
-        <ChatSidebar chatId={parseInt(chatId)} chats={_chats} />
+      <div className=' flex-[1] max-w-xs '>
+        <ChatSidebar chatId={parseInt(chatId)} chats={_chats} isPro={isPro} />
       </div>
       {/* pdf viewer */}
-      <div className='overflow-auto flex-[5] bg-white'>
+      <div className='overflow-auto flex-[5] '>
         <PDFViewer pdfUrl={currentChat?.pdfUrl || ''} />
       </div>
       {/* chat component */}
-      <div className='flex-[3] bg-white'>
+      <div className='flex-[3] '>
         <ChatComponent chatId={parseInt(chatId)} />
       </div>
     </div>

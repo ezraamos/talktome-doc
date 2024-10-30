@@ -43,7 +43,7 @@ const ChatComponent = ({ chatId }: Props) => {
       <MessageList messages={messages} isLoading={isLoading} />
       <form
         onSubmit={handleSubmit}
-        className='absolute bottom-0 inset-x-0 px-2 py-4  bg-white'
+        className='absolute bottom-0 inset-x-0 px-2 py-4  bg-white dark:bg-black'
       >
         <div className='flex'>
           <Input
