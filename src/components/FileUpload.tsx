@@ -72,18 +72,22 @@ const FileUpload = () => {
     },
   });
   return (
-    <div className='p-2 border border-slate-300 bg-white rounded-xl'>
+    <div
+      className={
+        'p-2 border border-slate-300 bg-white rounded-xl dark:bg-slate-600'
+      }
+    >
       <div
         {...getRootProps({
           className:
-            'border-dashed border-2 rounded-xl cursor-pointer bg-gray-50 py-8 flex justify-center items-center flex-col',
+            'border-dashed border-2 rounded-xl cursor-pointer bg-gray-50 py-8 flex justify-center items-center flex-col dark:bg-slate-400',
         })}
       >
         <input {...getInputProps()} />
         {isUploading || isPending ? (
           <>
             <Loader2 className='h-10 w-10 text-blue-500 animate-spin' />
-            <p className='mt-2 text-sm text-slate-400'>
+            <p className='mt-2 text-sm text-slate-400 dark:text-white'>
               Hang tight, decrypting the spicy details... this might take a
               byte!
             </p>
@@ -91,7 +95,9 @@ const FileUpload = () => {
         ) : (
           <>
             <Inbox className='w-10 h-10 text-blue-500' />
-            <p className='mt-2 text-sm text-slate-400'>Drop PDF here</p>
+            <p className='mt-2 text-sm text-slate-400 dark:text-white '>
+              Drop PDF here
+            </p>
           </>
         )}
       </div>
