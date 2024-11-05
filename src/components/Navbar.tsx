@@ -17,7 +17,7 @@ const Navbar = async () => {
   const user = session?.user;
 
   return (
-    <nav className='inset-x-0 top-0 w-full border-b border-gray-200 transition-all'>
+    <nav className='inset-x-0 top-0 w-full border-b border-gray-200 transition-all dark:border-gray-700'>
       <MaxWidthWrapper>
         <div className='flex h-14 items-center justify-between'>
           {/* place holder div */}
